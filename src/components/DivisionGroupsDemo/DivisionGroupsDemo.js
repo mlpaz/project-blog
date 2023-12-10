@@ -19,6 +19,8 @@ function DivisionGroupsDemo({
   initialNumOfGroups = 1,
   includeRemainderArea,
 }) {
+  const id = React.useId();
+
   const [numOfGroups, setNumOfGroups] = React.useState(initialNumOfGroups);
 
   const numOfItemsPerGroup = Math.floor(numOfItems / numOfGroups);
@@ -57,7 +59,7 @@ function DivisionGroupsDemo({
             {range(numOfGroups).map((groupIndex) => (
               <div key={groupIndex} className={styles.group}>
                 {range(numOfItemsPerGroup).map((index) => {
-                  const circleId = `circle-${
+                  const circleId = `circle-${id}-${
                     groupIndex * numOfItemsPerGroup + index
                   }`;
 
