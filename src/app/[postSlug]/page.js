@@ -1,25 +1,50 @@
-import React from 'react';
+import React from "react";
+import BlogHero from "@/components/BlogHero";
+import styles from "./postSlug.module.css";
+import { BLOG_TITLE } from "@/constants";
+import { loadBlogPost } from "@/helpers/file-helpers";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import { Code } from "bright";
+import dynamic from "next/dynamic";
+import { notFound } from "next/navigation";
+const CircularColorsDemo = dynamic(() =>
+  import("@/components/CircularColorsDemo")
+);
+const DivisionGroupsDemo = dynamic(() =>
+  import("@/components/DivisionGroupsDemo")
+);
 
-import BlogHero from '@/components/BlogHero';
+export async function generateMetadata({ params }) {
+  const blogPostData = await loadBlogPost(params.postSlug);
+  if (!blogPostData) {
+    return null;
+  }
+  return {
+    title: `${blogPostData.frontmatter.title} • ${BLOG_TITLE}`,
+    description: blogPostData.frontmatter.abstract,
+  };
+}
 
-import styles from './postSlug.module.css';
-
-function BlogPost() {
+async function BlogPost({ params }) {
+  const blogPostData = await loadBlogPost(params.postSlug);
+  if (!blogPostData) {
+    notFound();
+  }
   return (
-    <article className={styles.wrapper}>
-      <BlogHero
-        title="Example post!"
-        publishedOn={new Date()}
-      />
-      <div className={styles.page}>
-        <p>This is where the blog post will go!</p>
-        <p>
-          You will need to use <em>MDX</em> to render all of
-          the elements created from the blog post in this
-          spot.
-        </p>
-      </div>
-    </article>
+    <>
+      <article className={styles.wrapper}>
+        <BlogHero
+          title={blogPostData.frontmatter.title}
+          publishedOn={blogPostData.frontmatter.publishedOn}
+        />
+        <div className={styles.page}>
+          <MDXRemote
+            source={blogPostData.content}
+            components={{ pre: Code, DivisionGroupsDemo, CircularColorsDemo }}
+          />
+        </div>
+      </article>
+    </>
   );
 }
 
