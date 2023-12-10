@@ -4,7 +4,7 @@ import styles from "./postSlug.module.css";
 import { BLOG_TITLE } from "@/constants";
 import { loadBlogPost } from "@/helpers/file-helpers";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import { Code } from "bright";
+import CodeSnippet from "@/components/CodeSnippet";
 import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 const CircularColorsDemo = dynamic(() =>
@@ -40,7 +40,11 @@ async function BlogPost({ params }) {
         <div className={styles.page}>
           <MDXRemote
             source={blogPostData.content}
-            components={{ pre: Code, DivisionGroupsDemo, CircularColorsDemo }}
+            components={{
+              pre: CodeSnippet,
+              DivisionGroupsDemo,
+              CircularColorsDemo,
+            }}
           />
         </div>
       </article>
