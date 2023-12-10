@@ -62,7 +62,6 @@ function DivisionGroupsDemo({
                   const circleId = `circle-${id}-${
                     groupIndex * numOfItemsPerGroup + index
                   }`;
-
                   return (
                     <motion.div
                       key={circleId}
@@ -80,19 +79,21 @@ function DivisionGroupsDemo({
         {includeRemainderArea && (
           <div className={styles.remainderArea}>
             <p className={styles.remainderHeading}>Remainder Area</p>
-            {range(remainder).map((index) => {
-              const circleId = `circle-${
-                numOfGroups * numOfItemsPerGroup + index
-              }`;
-              return (
-                <motion.div
-                  key={circleId}
-                  className={styles.item}
-                  layoutId={circleId}
-                  transition={SPRING}
-                />
-              );
-            })}
+            {range(remainder)
+              .reverse()
+              .map((index) => {
+                const circleId = `circle-${id}-${
+                  numOfGroups * numOfItemsPerGroup + index
+                }`;
+                return (
+                  <motion.div
+                    key={circleId}
+                    className={styles.item}
+                    layoutId={circleId}
+                    transition={SPRING}
+                  />
+                );
+              })}
           </div>
         )}
 

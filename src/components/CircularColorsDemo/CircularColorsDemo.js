@@ -15,6 +15,7 @@ const COLORS = [
 ];
 
 function CircularColorsDemo() {
+  const id = React.useId();
   const [timeElapsed, setTimeElapsed] = React.useState(0);
   const [play, setPlay] = React.useState(false);
   React.useEffect(() => {
@@ -44,7 +45,7 @@ function CircularColorsDemo() {
               {isSelected && (
                 <motion.div
                   className={styles.selectedColorOutline}
-                  layoutId="selectedColorOutline"
+                  layoutId={`${id}-selectedColorOutline`}
                 />
               )}
               <div
